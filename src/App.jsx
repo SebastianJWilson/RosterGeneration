@@ -1,13 +1,12 @@
-import './App.css'
+import './index.css'
 import FileUpload from './Components/FileUpload'
+import { Heading } from '@radix-ui/themes'
 
 function App() {
   return (
     <>
-      <div id='BackgroundDIV'>
-        <h1>Roster Generation</h1>
-        <FileUpload/>
-      </div>
+      <h1>Roster Generation</h1>
+      <FileUpload />
     </>
   )
 }
