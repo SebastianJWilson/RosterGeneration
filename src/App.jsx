@@ -4,15 +4,24 @@ import HeaderSelector from './Components/HeaderSelector';
 import Papa from "papaparse"
 import { Table } from '@radix-ui/themes';
 
+import { PersonIcon, ClockIcon } from '@radix-ui/react-icons';
+
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const [parsedData, setParsedData] = useState([]);
   const [tableRows, setTableRows] = useState([]);
   const [values, setValues] = useState([]);
 
+  const [nameHeader, setNameHeader] = useState(Number)
+  const [ageHeader, setAgeHeader] = useState(Number)
+  
+
   const readCSV = () => {
-    if (selectedFile == null) return;
+    if (selectedFile == null) {
+      setTableRows([])
+      setValues([])
+      return
+    };
     Papa.parse(selectedFile, {
       header: true,
       skipEmptyLines: true,
@@ -20,19 +29,12 @@ function App() {
         const rowsArray = [];
         const valuesArray = [];
 
-        // Iterating data to get column name and their values
         results.data.map((d) => {
           rowsArray.push(Object.keys(d));
           valuesArray.push(Object.values(d));
         });
 
-        // Parsed Data Response in array format
-        setParsedData(results.data);
-
-        // Filtered Column Names
         setTableRows(rowsArray[0]);
-
-        // Filtered Values
         setValues(valuesArray);
       },
     })
@@ -40,12 +42,20 @@ function App() {
 
   useEffect(readCSV, [selectedFile])
 
+  useEffect(() => {
+    console.log("Headers updated")
+  }, [nameHeader, ageHeader])
+
   return (
     <>
       <h1>Roster Generation</h1>
       <FileUpload selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
       <br style={{marginTop:'25px'}}/>
-      <HeaderSelector/>
+      {tableRows.length>0 && (<>
+        <HeaderSelector icon={<PersonIcon/>} tableRows={tableRows} setHeader={setNameHeader}/>
+        {' '}
+        <HeaderSelector icon={<ClockIcon/>} tableRows={tableRows} setHeader={setAgeHeader}/>
+      </>)}
     </>
   )
 }
