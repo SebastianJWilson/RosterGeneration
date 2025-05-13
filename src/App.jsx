@@ -1,6 +1,4 @@
-import './index.css'
 import FileUpload from './Components/FileUpload'
-import { Heading } from '@radix-ui/themes'
 
 function App() {
   return (
