@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import FileUpload from './Components/FileUpload'
 import HeaderSelector from './Components/HeaderSelector';
 import Papa from "papaparse"
-import { Table } from '@radix-ui/themes';
+import { TextArea } from '@radix-ui/themes';
 
 import { PersonIcon, ClockIcon } from '@radix-ui/react-icons';
 
@@ -14,7 +14,8 @@ function App() {
 
   const [nameHeader, setNameHeader] = useState(Number)
   const [ageHeader, setAgeHeader] = useState(Number)
-  
+
+  const [areaData, setTextArea] = useState(String)
 
   const readCSV = () => {
     if (selectedFile == null) {
@@ -43,18 +44,32 @@ function App() {
   useEffect(readCSV, [selectedFile])
 
   useEffect(() => {
-    console.log("Headers updated")
+    var dataString = ''
+    for (let i = 0; i < values.length; i++) {
+      var fullName = values[i][nameHeader]
+      var age = values[i][ageHeader]
+      const [lastName, firstName] = fullName.split(', ')
+      dataString += firstName+' '+lastName+' '+String(Math.floor(Number(age)))+' years\n'
+    }
+    setTextArea(dataString)
+    const textElement = document.getElementById('DataTextArea') 
+    if (textElement != null) {
+      textElement.style.height = "1px"
+      textElement.style.height = (25+textElement.scrollHeight)+"px"
+    }
   }, [nameHeader, ageHeader])
 
   return (
     <>
       <h1>Roster Generation</h1>
       <FileUpload selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
-      <br style={{marginTop:'25px'}}/>
-      {tableRows.length>0 && (<>
-        <HeaderSelector icon={<PersonIcon/>} tableRows={tableRows} setHeader={setNameHeader}/>
+      <br style={{ marginTop: '25px' }} />
+      {tableRows != null && tableRows.length > 0 && (<>
+        <HeaderSelector icon={<PersonIcon />} tableRows={tableRows} setHeader={setNameHeader} />
         {' '}
-        <HeaderSelector icon={<ClockIcon/>} tableRows={tableRows} setHeader={setAgeHeader}/>
+        <HeaderSelector icon={<ClockIcon />} tableRows={tableRows} setHeader={setAgeHeader} />
+        <br style={{ marginTop: '25px' }} />
+        <TextArea id='DataTextArea' value={areaData} placeholder='Formatted String...' readOnly />
       </>)}
     </>
   )
