@@ -12,10 +12,26 @@ function App() {
   const [tableRows, setTableRows] = useState([]);
   const [values, setValues] = useState([]);
 
-  const [nameHeader, setNameHeader] = useState(Number)
-  const [ageHeader, setAgeHeader] = useState(Number)
+  const [nameHeader, setNameHeader] = useState(0)
+  const [ageHeader, setAgeHeader] = useState(1)
 
   const [areaData, setTextArea] = useState(String)
+
+  const updateTextArea = () => {
+    var namesArr = []
+    console.log(ageHeader, nameHeader)
+    // Format each row in the csv
+    for (let i = 0; i < values.length; i++) {
+      var fullName = values[i][nameHeader]
+      var age = values[i][ageHeader]
+      const [lastName, firstName] = fullName.split(', ')
+      namesArr.push(firstName+' '+lastName+' '+String(Math.floor(Number(age)))+' years\n')
+    }
+    // Sort the array of formatted strings
+    namesArr.sort()
+    // Append all strings together
+    setTextArea(namesArr.join('').trim())
+  }
 
   const readCSV = () => {
     if (selectedFile == null) {
@@ -38,23 +54,14 @@ function App() {
 
         setTableRows(rowsArray[0]);
         setValues(valuesArray);
+
+        updateTextArea()
       },
     })
   }
 
   useEffect(readCSV, [selectedFile])
-
-  useEffect(() => {
-    var dataString = ''
-    for (let i = 0; i < values.length; i++) {
-      var fullName = values[i][nameHeader]
-      var age = values[i][ageHeader]
-      const [lastName, firstName] = fullName.split(', ')
-      dataString += firstName+' '+lastName+' '+String(Math.floor(Number(age)))+' years\n'
-    }
-    dataString = dataString.trim()
-    setTextArea(dataString)
-  }, [nameHeader, ageHeader])
+  useEffect(updateTextArea, [nameHeader, ageHeader, tableRows])
 
   
   return (
@@ -65,9 +72,9 @@ function App() {
       {tableRows != null && tableRows.length > 0 && (<>
         <Text>Select the header for name & age</Text>
         <br style={{marginBottom:"5px"}}/>
-        <HeaderSelector icon={<PersonIcon />} tableRows={tableRows} setHeader={setNameHeader} />
+        <HeaderSelector icon={<PersonIcon />} tableRows={tableRows} setHeader={setNameHeader} defaultIndex={0} />
         {' '}
-        <HeaderSelector icon={<ClockIcon />} tableRows={tableRows} setHeader={setAgeHeader} />
+        <HeaderSelector icon={<ClockIcon />} tableRows={tableRows} setHeader={setAgeHeader} defaultIndex={1}/>
         <br style={{ marginTop: '25px' }} />
         <div className="DataTextAreaWrapper">
           <TextArea id='DataTextArea' value={areaData} placeholder='Formatted String...' readOnly />

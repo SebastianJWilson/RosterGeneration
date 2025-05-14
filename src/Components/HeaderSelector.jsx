@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { DropdownMenu, Button } from "@radix-ui/themes";
 
-const HeaderSelector = ({icon, tableRows, setHeader }) => {
+const HeaderSelector = ({icon, tableRows, setHeader, defaultIndex}) => {
 
-    const [name, setName] = useState(tableRows[0])
+    const [name, setName] = useState(tableRows[defaultIndex])
 
     const updateName = (index) => {
         setName(tableRows[index])
