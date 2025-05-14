@@ -1,5 +1,6 @@
 {
   "name": "hylandcsv",
+  "homepage": "https://SebastianJWilson.github.io/RosterGeneration/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
