@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import FileUpload from './Components/FileUpload'
 import HeaderSelector from './Components/HeaderSelector';
 import Papa from "papaparse"
-import { TextArea } from '@radix-ui/themes';
+import { TextArea, Text, Heading } from '@radix-ui/themes';
 
 import { PersonIcon, ClockIcon } from '@radix-ui/react-icons';
 
@@ -21,6 +21,7 @@ function App() {
     if (selectedFile == null) {
       setTableRows([])
       setValues([])
+      setTextArea("")
       return
     };
     Papa.parse(selectedFile, {
@@ -57,10 +58,12 @@ function App() {
 
   return (
     <>
-      <h1>Roster Generation</h1>
+      <Heading size={"8"} style={{padding:'20px 0 20px 0'}}>Roster Generation</Heading>
       <FileUpload selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
       <br style={{ marginTop: '25px' }} />
       {tableRows != null && tableRows.length > 0 && (<>
+        <Text>Select the header for name & age</Text>
+        <br style={{marginBottom:"5px"}}/>
         <HeaderSelector icon={<PersonIcon />} tableRows={tableRows} setHeader={setNameHeader} />
         {' '}
         <HeaderSelector icon={<ClockIcon />} tableRows={tableRows} setHeader={setAgeHeader} />
@@ -69,6 +72,7 @@ function App() {
           <TextArea id='DataTextArea' value={areaData} placeholder='Formatted String...' readOnly />
         </div>
       </>)}
+      <footer>Created by Sebastian Wilson</footer>
     </>
   )
 }

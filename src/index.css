@@ -24,7 +24,7 @@ html, body {
   margin-left: auto;
   margin-right: auto;
   display: block;
-  resize: vertical;
+  resize: none;
   overflow-y: auto;
 }
 
@@ -36,4 +36,19 @@ html, body {
   margin-right: auto;
   display: flex;
   justify-content: center;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  background: rgba(17, 17, 19, 0.85); /* Slightly transparent to blend */
+  color: #ccc;
+  text-align: center;
+  padding: 8px 0 8px 0;
+  font-size: 1rem;
+  z-index: 100;
+  box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.2);
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
