@@ -1,3 +1,39 @@
 :root {
   text-align: center;
 }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #111113;
+}
+
+#DataTextArea {
+  width: 100%;
+  max-width: 1200px;
+  min-width: 500px;
+  height: 350px;
+  min-height: 150px;
+  max-height: 600px;
+  padding-left: 28px;
+  padding-right: 28px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  resize: vertical;
+  overflow-y: auto;
+}
+
+.DataTextAreaWrapper {
+  width: 200vw;
+  max-width: 1200px;
+  min-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+}

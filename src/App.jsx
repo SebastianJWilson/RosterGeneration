@@ -51,12 +51,8 @@ function App() {
       const [lastName, firstName] = fullName.split(', ')
       dataString += firstName+' '+lastName+' '+String(Math.floor(Number(age)))+' years\n'
     }
+    dataString = dataString.trim()
     setTextArea(dataString)
-    const textElement = document.getElementById('DataTextArea') 
-    if (textElement != null) {
-      textElement.style.height = "1px"
-      textElement.style.height = (25+textElement.scrollHeight)+"px"
-    }
   }, [nameHeader, ageHeader])
 
   return (
@@ -69,7 +65,9 @@ function App() {
         {' '}
         <HeaderSelector icon={<ClockIcon />} tableRows={tableRows} setHeader={setAgeHeader} />
         <br style={{ marginTop: '25px' }} />
-        <TextArea id='DataTextArea' value={areaData} placeholder='Formatted String...' readOnly />
+        <div className="DataTextAreaWrapper">
+          <TextArea id='DataTextArea' value={areaData} placeholder='Formatted String...' readOnly />
+        </div>
       </>)}
     </>
   )
